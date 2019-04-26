@@ -1,0 +1,241 @@
+@import 'keyframes';
+
+@mixin position-center-center($position:absolute) {
+    position: $position;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+@mixin position-left-center($position:absolute,$left:20px) {
+    position: $position;
+    top: 50%;
+    left: $left;
+    transform: translate(0%, -50%);
+}
+@mixin position-right-center($position:absolute, $right:20px) {
+    position: $position;
+    top: 50%;
+    right: $right;
+    transform: translate(0%, -50%);
+}
+@mixin position-center-top($position:absolute,$top:20px) {
+    position: $position;
+    top: $top;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+@mixin position-center-bottom($position:absolute, $bottom:20px) {
+    position: $position;
+    bottom: $bottom;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+@mixin flex-start-start {
+    display: flex;
+    justify-content: start;
+    align-items: flex-start;
+}
+
+@mixin flex-start-center {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+@mixin flex-start-end {
+    display: flex;
+    justify-content: start;
+    align-items: flex-end;
+}
+
+@mixin flex-center-start {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+@mixin flex-center-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin flex-center-end {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+@mixin flex-end-start {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+@mixin flex-end-center {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+@mixin flex-end-end {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+@mixin flex-between-start {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+@mixin flex-between-center {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@mixin flex-between-end {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+@mixin flex-around-start {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+@mixin flex-around-center {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+@mixin flex-around-end {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+}
+
+@mixin placeholder($color:#999999) {
+    input::-webkit-input-placeholder {
+        color: $color;
+    }
+
+    input::-moz-placeholder {
+        /* Mozilla Firefox 19+ */
+        color: $color;
+    }
+
+    input:-moz-placeholder {
+        /* Mozilla Firefox 4 to 18 */
+        color: $color;
+    }
+
+    input:-ms-input-placeholder {
+        /* Internet Explorer 10-11 */
+        color: $color;
+    }
+}
+
+@mixin img-box-cover($bg_color:#eeeeee) {
+    background: $bg_color;
+    @include flex-center-center;
+    overflow: hidden;
+    img {
+        width: 100%;
+        min-width: 100%;
+        min-height: 100%;
+    }
+}
+
+@mixin textOver {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+@mixin pointer {
+    cursor: pointer;
+}
+@mixin arrow-right($width:6px, $right:10px, $border_width:1px, $color:#333, $deg:45deg) {
+    position: relative;
+    .arrow {
+        content: "";
+        position: absolute;
+        right: $right;
+        top: 50%;
+        width: $width;
+        height: $width;
+        background-color: transparent;
+        border-top: $border_width solid $color;
+        border-right: $border_width solid $color;
+        transform: translate(0%, -50%) rotate($deg);
+        transition: transform 0.3s;
+    }
+}
+@mixin arrow-left($width:6px, $left:10px, $border_width:1px, $color:#333, $deg:-135deg) {
+    position: relative;
+    .arrow {
+        content: "";
+        position: absolute;
+        left: $left;
+        top: 50%;
+        width: $width;
+        height: $width;
+        background-color: transparent;
+        border-top: $border_width solid $color;
+        border-right: $border_width solid $color;
+        transform: translate(0%, -50%) rotate($deg);
+        transition: transform 0.3s;
+    }
+}
+@mixin arrow-top($width:6px, $top:10px, $border_width:1px, $color:#333,$deg:-45deg) {
+    position: relative;
+    .arrow {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: $top;
+        width: $width;
+        height: $width;
+        background-color: transparent;
+        border-top: $border_width solid $color;
+        border-right: $border_width solid $color;
+        transform: translate(-50%, 0) rotate($deg);
+        transition: transform 0.3s;
+    }
+}
+@mixin arrow-bottom($width:6px, $bottom:10px, $border_width:1px, $color:#333, $deg:135deg) {
+    position: relative;
+    .arrow {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: $bottom;
+        width: $width;
+        height: $width;
+        background-color: transparent;
+        border-top: $border_width solid $color;
+        border-right: $border_width solid $color;
+        transform: translate(-50%, 0) rotate($deg);
+        transition: transform 0.3s;
+    }
+}
+@mixin triangle-up {
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 100px solid red;
+}
+@mixin icon-arrow-transition {
+    transition: transfrom 0.3s;
+}
+@mixin icon-arrow-rotate($deg) {
+    transform: rotate($deg);
+}
+
+

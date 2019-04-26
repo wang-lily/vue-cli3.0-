@@ -1,0 +1,140 @@
+@mixin spinner($size:2rem, $color:rgb(66, 185, 131), $color_shadow:rgba(66, 185, 131, 0.2), $time:1.5s) {
+    position: relative;
+    font-size: $size;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 0.1em $color_shadow;
+
+    i {
+        position: absolute;
+        top: 0;
+        left: 0;
+        clip: rect(0, 1em, 1em, 0.5em);
+        width: 1em;
+        height: 1em;
+        transform-origin: 50% 50%;
+        animation: spinner-circle-clipper $time ease-in-out infinite;
+
+        &::after {
+            position: absolute;
+            top: 0;
+            left: 0;
+            clip: rect(0, 1em, 1em, 0.5em);
+            width: 1em;
+            height: 1em;
+            content: '';
+            transform-origin: 50% 50%;
+            animation: spinner-circle $time ease-in-out infinite;
+            border-radius: 50%;
+            box-shadow: inset 0 0 0 0.1em $color;
+        }
+    }
+
+    @keyframes spinner-circle {
+        0% {
+            transform: rotate(-180deg);
+        }
+
+        100% {
+            transform: rotate(180deg);
+        }
+    }
+
+    @keyframes spinner-circle-clipper {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(270deg);
+        }
+    }
+}
+
+@mixin loading-flower($scale:1, $color:#000) {
+    position: relative;
+    width: 6rem;
+    height: 7.5rem;
+    margin: 5px 10px;
+    transform: scale($scale);
+
+    .blockG {
+        position: absolute;
+        background-color: transparent;
+        width: 1rem;
+        height: 2.3rem;
+        border-radius: 0.5rem 0.5rem 0 0;
+        transform: scale(0.4);
+        animation-name: fadeG;
+        animation-duration: 1.2s;
+        animation-iteration-count: infinite;
+        animation-direction: normal;
+
+        &:first-child {
+            left: 0;
+            top: 2.7rem;
+            animation-delay: 0.45s;
+            transform: rotate(-90deg);
+        }
+
+        &:nth-child(2) {
+            left: 0.8rem;
+            top: 1rem;
+            animation-delay: 0.6s;
+            transform: rotate(-45deg);
+        }
+
+        &:nth-child(3) {
+            left: 2.5rem;
+            top: 0.3rem;
+            animation-delay: 0.75s;
+            transform: rotate(0deg);
+        }
+
+        &:nth-child(4) {
+            right: 0.8rem;
+            top: 1rem;
+            animation-delay: 0.9s;
+            transform: rotate(45deg);
+        }
+
+        &:nth-child(5) {
+            right: 0;
+            top: 2.7rem;
+            animation-delay: 1.05s;
+            transform: rotate(90deg);
+        }
+
+        &:nth-child(6) {
+            right: 0.8rem;
+            bottom: 0.7rem;
+            animation-delay: 1.2s;
+            transform: rotate(135deg);
+        }
+
+        &:nth-child(7) {
+            bottom: 0;
+            left: 2.5rem;
+            animation-delay: 1.35s;
+            transform: rotate(180deg);
+        }
+
+        &:nth-child(8) {
+            left: 0.8rem;
+            bottom: 0.7rem;
+            animation-delay: 1.5s;
+            transform: rotate(-135deg);
+        }
+    }
+
+    @keyframes fadeG {
+        0% {
+            background-color: $color;
+        }
+
+        100% {
+            background-color: transparent;
+        }
+    }
+}

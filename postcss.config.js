@@ -1,0 +1,37 @@
+// https://github.com/michael-ciniawsky/postcss-load-config
+
+module.exports = {
+  "plugins": {
+    "postcss-import": {},
+    "postcss-url": {},
+    "postcss-aspect-ratio-mini": {},
+    "postcss-write-svg": {
+      utf8: false
+    },
+    "postcss-cssnext": {},
+    "postcss-px-to-viewport": {
+      viewportWidth: 375, // (Number) The width of the viewport.
+      viewportHeight: 667, // (Number) The height of the viewport. 
+      unitPrecision: 3, // (Number) The decimal numbers to allow the REM units to grow to. 
+      propList: ['width', "height", "margin", "padding", "line-height", "border-radius"],
+      viewportUnit: 'vw', // (String) Expected units. 
+      fontViewportUnit: 'px',
+      selectorBlackList: ['.ignore', '.hairlines'], // (Array) The selectors to ignore and leave as px. 
+      minPixelValue: 2, // (Number) Set the minimum pixel value to replace. 
+      mediaQuery: false // (Boolean) Allow px to be converted in media queries. 
+    },
+    "cssnano": {
+      autoprefixer: false,
+      "postcss-zindex": false
+    },
+    // to edit target browsers: use "browserslist" field in package.json
+    // 'autoprefixer': {
+    //   browsers: ['Android >= 4.0', 'iOS >= 7']
+    // },
+    'postcss-pxtorem': {
+      rootValue: 75,
+      // unitPrecision: 1,
+      propList: ['font-size']
+    }
+  }
+}

@@ -1,0 +1,28 @@
+// vm适配(推荐)
+$design_width:750px;
+$design_height:1206px;
+@function vw($px) {
+    @return ($px/$design_width) * 100vw
+};
+// rem适配
+$base_font:100;
+$base_rem: $design_width / $base_font;
+@function rem($px) {
+    @return ($px / $base_rem) * 1rem
+};
+
+// width:vm(320px)
+// width:rem(320px)
+
+// 获得相对设备边框的位置
+@function getTop($px) {
+    @return ($px - $design_height / 2) / $base_rem * 1rem;
+}
+
+@function getLeft($px) {
+    @return ($px - $design_height / 2) / $base_rem * 1rem;
+}
+
+@function getRight($px) {
+    @return (($px - $design_height) / 2) / $base_rem * 1rem;
+}
