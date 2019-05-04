@@ -3,6 +3,8 @@
     <div class="double-record">
       <div class="video" v-if="mediaStore.videoSrc">
         <video
+        webkit-playsinline="true" 
+        playsinline="true"
           ref="recordedVideo"
           id="recordedVideo"
           :src="mediaStore.videoSrc"
@@ -28,7 +30,7 @@
         </div>
       </div>
       <div class="video" v-else>
-        <video ref="video" style="width:100%;background:#000"></video>
+        <video ref="video" style="width:100%;background:#000" webkit-playsinline="true" playsinline="true"></video>
         <div class="hg-text-center hg-mt-5">
           <button
             class="hg-btn-blue hg-btn-blue-nor"
@@ -52,7 +54,7 @@
       </div>
     </div>
     <!--引导确认框----------------start-------------->
-    <el-dialog :visible.sync="confirmShow" class="hg-dialog-sure">
+    <!-- <el-dialog :visible.sync="confirmShow" class="hg-dialog-sure">
       <div class="hg-pl-30 hg-pr-30 hg-pb-30" style="border-bottom: 1px solid #D7D7D7">
         <div
           style="text-align:center;"
@@ -67,7 +69,7 @@
         >取消</div>
         <div class="hg-flex-1 hg-color-red hg-pointer hg-text-center hg-fs-15" @click="submit">确认</div>
       </div>
-    </el-dialog>
+    </el-dialog> -->
     <!--引导确认框----------------end-------------->
   </div>
 </template>
@@ -83,7 +85,7 @@ export default {
   name: "doubleRecord",//双录视频
   data() {
     return {
-      record: null,
+      recorder: null,
       recording: false,
       html: "",
       video: null,
@@ -101,25 +103,24 @@ export default {
       complete: false
     },
     mediaStore: {
-      user_product_id: 0,
-      media: "",
-      videoSrc: ""
+      type:Object,
+      required:false,
+      default(){
+        return {
+          user_product_id: 0,
+          media: "",
+          videoSrc: ""
+        }
+      }
     }
-  },
-  created() {
-    //获得双录提示语
-    __product_record_tips()
-      .then(res => {
-        this.html = res.data.data;
-      })
-      .catch(err => {
-        console.log(err);
-      });
   },
   mounted() {
     this.video = this.$refs.video;
     this.recordedVideo.ele = this.$refs.recordedVideo;
     this.getVideo();
+  },
+  destroyed(){
+    this.recorder && this.recorder.destroy()
   },
   methods: {
     //上传双语视频
@@ -156,75 +157,43 @@ export default {
           console.log(err);
         });
     },
-    //停止录制
-    stopRecord() {
-      this.record.stopRecording(() => {
-        this.blob = this.record.getBlob();
-        console.log(this.record);
-        this.recording = false;
-        this.confirmShow = true;
-        // this.video.pause();
-      });
-    },
-    //开始录制
-    startRecord() {
-      this.recording = true;
-      // this.video.play();
-      this.record.startRecording();
-    },
-    //获取摄像头对象
-    getVideo() {
-      //new RecordRTCPromisesHandler()
-      //判断浏览器是否支持
-      if (navigator.mediaDevices === undefined) {
-        navigator.mediaDevices = {};
-      }
-      // 因为这样可能会覆盖已有的属性。这里我们只会在没有getUserMedia属性的时候添加它。
-      if (navigator.mediaDevices.getUserMedia === undefined) {
-        navigator.mediaDevices.getUserMedia = function(constraints) {
-          // 首先，如果有getUserMedia的话，就获得它
-          let getUserMedia =
-            navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-
-          // 一些浏览器根本没实现它 - 那么就返回一个error到promise的reject来保持一个统一的接口
-          if (!getUserMedia) {
-            return Promise.reject(
-              new Error("getUserMedia is not implemented in this browser")
-            );
-          }
-
-          // 否则，为老的navigator.getUserMedia方法包裹一个Promise
-          return new Promise(function(resolve, reject) {
-            getUserMedia.call(navigator, constraints, resolve, reject);
+    getVideo(){
+      navigator.mediaDevices.getUserMedia({
+        video: {width: 320, height: 240},
+          audio: true
+      }).then((stream)=> {
+        this.recorder = RecordRTC(stream, {
+          type: 'video'
           });
-        };
-      }
-
-      navigator.mediaDevices
-        .getUserMedia({ audio: true, video: true })
-        .then(stream => {
-          this.record = RecordRTC(stream, {
-            type: "video",
-            recorderType: WhammyRecorder
-          });
-          // let video = this.$refs.video;
-          let video = this.video;
-          // this.video = this.video;
           // 旧的浏览器可能没有srcObject
-          if ("srcObject" in video) {
-            video.srcObject = stream;
+          if ("srcObject" in this.video) {
+            this.video.srcObject = stream;
           } else {
             // 防止在新的浏览器里使用它，应为它已经不再支持了
-            video.src = window.URL.createObjectURL(stream);
+            this.video.src = window.URL.createObjectURL(stream);
           }
-          video.onloadedmetadata = function(e) {
-            video.play();
+          this.video.onloadedmetadata = function(e) {
+            this.video.play();
           };
-        })
-        .catch(function(err) {
-          console.log(err.name + ": " + err.message);
-        });
-    }
+      }).catch(err=>{
+      // alert(3434)
+        // alert(err+'')
+      })
+    },
+    startRecord(){
+      // alert("start")
+      this.recording = true;
+      this.video.play();
+      this.recorder.startRecording();
+    },
+    stopRecord(){
+      // alert("end");
+      this.video.pause();
+      this.blob = this.recorder.getBlob();
+      this.recording = false;
+      this.confirmShow = true;
+      this.recorder.stopRecording();
+    },
   }
 };
 </script>

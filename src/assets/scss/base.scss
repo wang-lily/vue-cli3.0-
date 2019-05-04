@@ -2,22 +2,7 @@
 @import 'keyframes';
 @import 'mixin';
 @import 'function';
-* {
-    margin: 0;
-    padding: 0;
-    outline: 0;
-    box-sizing: border-box;
-}
-a {
-    text-decoration: none;
-}
-ul,
-li,
-ol {
-    list-style: none outside none;
-    padding: 0;
-    margin: 0;
-}
+// @import 'reset';
 html{
     width: 375px;
     height: 100%;

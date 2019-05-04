@@ -254,8 +254,8 @@ export function checkIdCard(idCard) {
     var yyyy; // 年
     var mm; // 月
     var dd; // 日
-    var birthday; // 生日
-    var sex; // 性别
+    // var birthday; // 生日
+    // var sex; // 性别
     var id = idCard;
     var id_length = id.length;
     if (id_length == 0) {
@@ -304,7 +304,7 @@ export function checkIdCard(idCard) {
             }
         }
     } else {
-        for (var i = 0; i < id_length - 1; i++) {
+        for (let i = 0; i < id_length - 1; i++) {
             if (isNaN(idCard.charAt(i))) {
                 //alert("身份证号中前17位中不能有字符！");
                 return false;
@@ -424,30 +424,7 @@ export function GetVerifyBit(id) {
     }
     return result;
 }
-//身份证号 15位转18位
-export function Get18(idCard) {
-    if (CheckValue(idCard)) {
-        var id = idCard;
-        var id18 = id;
-        if (id.length == 0) {
-            alert("请输入15位身份证号！");
-            return false;
-        }
-        if (id.length == 15) {
-            if (id.substring(6, 8) > 20) {
-                id18 = id.substring(0, 6) + "19" + id.substring(6, 15);
-            } else {
-                id18 = id.substring(0, 6) + "20" + id.substring(6, 15);
-            }
 
-            id18 = id18 + GetVerifyBit(id18);
-        }
-
-        return id18;
-    } else {
-        return false;
-    }
-}
 //验证金额
 export function isValidMoney(val) {
     if (/^\d+(\.\d{0,2})?$/.test(val)) {
@@ -463,5 +440,23 @@ export function isValidPayPwd(val) {
     } else {
         return false;
     }
+}
+//千分位，不包含小数
+export function toThousand(val){
+    // val.replace(/,/ig,"")千分位转数值
+    let tmp = val.toString();
+    let length = Math.ceil(tmp.length/3);
+    let end = tmp.length%3;
+    let start = 0;
+    let arr = [];
+    for(let i=0;i<length;i++){
+        if (end === 0) {
+            end = 3;
+        }
+        arr.push(tmp.slice(start, end));
+        start = end;
+        end += 3;
+    }
+    return arr.join(',');
 }
 

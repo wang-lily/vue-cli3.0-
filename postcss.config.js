@@ -29,7 +29,7 @@ module.exports = {
     //   browsers: ['Android >= 4.0', 'iOS >= 7']
     // },
     'postcss-pxtorem': {
-      rootValue: 75,
+      rootValue: 37.5,
       // unitPrecision: 1,
       propList: ['font-size']
     }

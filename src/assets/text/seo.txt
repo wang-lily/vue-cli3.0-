@@ -1,0 +1,64 @@
+预渲染方案，便于seo
+
+1.使用国内Chromium源
+npm config set puppeteer_download_host=https://npm.taobao.org/mirrors
+npm i puppeteer --save-dev
+
+2.安装预渲染插件
+npm i prerender-spa-plugin --save-dev
+
+3.vue.config.js里面配置
+configureWebpack: config=>{
+    if (process.env.NODE_ENV !== 'production') return;
+    return {
+      plugins: [
+        new PrerenderSPAPlugin({
+          staticDir: path.join(__dirname, "./dist"),
+          routes: ["/", "/about"],
+          renderer: new Renderer({
+            inject: {
+              foo: "bar"
+            },
+            headless: false,
+            renderAfterDocumentEvent: "render-event",
+            args: ["--no-sandbox", "--disable-setuid-sandbox"]
+          })
+        })
+      ]
+    };
+  },
+
+4.main.js里面
+new Vue({
+  router,
+  store,
+  render: h => h(App),
+  // 预渲染
+  mounted () {
+  document.dispatchEvent(new Event("render-event"));
+}
+}).$mount('#app')
+
+5.vue-router采用history模式
+
+6.npm i vue-meta-info --save-dev  
+  main.js中加
+  import MetaInfo from 'vue-meta-info'
+  Vue.use(MetaInfo)
+
+7.页面的vue中加metaInfo信息
+export default {
+  metaInfo: {
+    title: 'We Inc',
+    meta: [
+      {
+        name: 'keywords',
+        content: '关键字1,关键字2,关键字3'
+      },
+      {
+        name: 'description',
+        content: '这是一段网页的描述'
+      }
+    ]
+  }
+}

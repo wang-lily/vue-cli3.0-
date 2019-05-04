@@ -32,18 +32,28 @@
       <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
     </ul>
+    <DoubleRecord :doubleRec="doubleRec"/>
+    <i class="triangle"></i>
   </div>
 </template>
 
 <script>
+import DoubleRecord from '@/components/DoubleRecord'
 export default {
   name: 'HelloWorld',
+  components:{
+    DoubleRecord
+  },
   props: {
     msg: String
   },
   data(){
     return{
-      active:false
+      active:false,
+      doubleRec: {
+        show: true,
+        complete: false
+      },
     }
   }
 }
@@ -53,6 +63,9 @@ export default {
 <style scoped lang="scss">
 .hello{
   width: 100%;
+  .triangle{
+    @include triangle(bottom);
+  }
   .arrow{
   @include pointer;
 }
