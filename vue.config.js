@@ -1,8 +1,8 @@
 /*eslint-disable */
-const PrerenderSPAPlugin = require('prerender-spa-plugin');
+// const PrerenderSPAPlugin = require('prerender-spa-plugin');
 
-const Renderer = PrerenderSPAPlugin.PuppeteerRenderer;
-const path = require('path');
+// const Renderer = PrerenderSPAPlugin.PuppeteerRenderer;
+// const path = require('path');
 
 module.exports = {
   /* 部署应用包的基本URL */
@@ -93,31 +93,31 @@ module.exports = {
 
   /* 生产环境的source map */
 
-  productionSourceMap: true,
+  productionSourceMap: false,
 
   // crossorigin: "",
 
   integrity: false,
 
-  configureWebpack: config=>{
-    if (process.env.NODE_ENV !== 'production') return;
-    return {
-      plugins: [
-        new PrerenderSPAPlugin({
-          staticDir: path.join(__dirname, "./dist"),
-          routes: ["/", "/about"],
-          renderer: new Renderer({
-            inject: {
-              foo: "bar"
-            },
-            headless: false,
-            renderAfterDocumentEvent: "render-event",
-            args: ["--no-sandbox", "--disable-setuid-sandbox"]
-          })
-        })
-      ]
-    };
-  },
+  // configureWebpack: config=>{
+  //   if (process.env.NODE_ENV !== 'production') return;
+  //   return {
+  //     plugins: [
+  //       new PrerenderSPAPlugin({
+  //         staticDir: path.join(__dirname, "./dist"),
+  //         routes: ["/", "/about"],
+  //         renderer: new Renderer({
+  //           inject: {
+  //             foo: "bar"
+  //           },
+  //           headless: false,
+  //           renderAfterDocumentEvent: "render-event",
+  //           args: ["--no-sandbox", "--disable-setuid-sandbox"]
+  //         })
+  //       })
+  //     ]
+  //   };
+  // },
 
   // css相关配置
 
@@ -157,19 +157,20 @@ module.exports = {
 
     host: "localhost",
 
-    https: true,
+    https: false,
 
     // 自动启动浏览器
 
     open: false,
 
+    //代理
     proxy: {
       "/api": {
-        //代理路径 例如 https://baidu.com
+        // 代理路径 例如 https://baidu.com
         target: "http://127.0.0.1:3001",
         // 将主机标头的原点更改为目标URL
         changeOrigin: true,
-        ws: true, //是否启用websocket
+        ws: false, //是否启用websocket
         pathRewrite: {
           "^/api": "" //接口中使用/api替代target
         }

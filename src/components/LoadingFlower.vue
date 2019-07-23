@@ -5,11 +5,11 @@
 </template>
 <script>
 export default {
-    name:"LoadingFlower"
-};
+  name: 'LoadingFlower'
+}
 </script>
 <style scoped lang="scss">
-.loading-flower{
-  @include loading-flower(0.5,#f0f);
+.loading-flower {
+  @include loading-flower(0.5, #f0f);
 }
 </style>
