@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 普通script顺序加载，会形成阻塞 -->
+    <script></script>
+    <!-- defer:异步加载该文件，多个defer文件存在是顺序加载，并不影响dom的渲染 defer脚本会在文档渲染完毕后，DOMContentLoaded事件调用前执行-->
+    <script defer></script>
+    <!--  async的异步执行，并不会按着script在页面中的顺序来执行，而是谁先加载完谁执行-->
+    <script async></script>
+    <!-- 总结：脚本代码依赖于页面中的DOM元素采用defer更稳定，不依赖DOM时采用async -->
+</body>
+</html>

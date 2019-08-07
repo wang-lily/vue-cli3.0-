@@ -1,7 +1,8 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <img alt="Vue logo" src="../assets/logo.png" a="1" />
+    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <ToTop :showY="500" />
   </div>
 </template>
 
@@ -9,6 +10,7 @@
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
 
+import ToTop from '@/components/ToTop'
 export default {
   metaInfo: {
     title: 'We Inc',
@@ -25,6 +27,7 @@ export default {
   },
   name: 'home',
   components: {
+    ToTop,
     HelloWorld
   }
 }

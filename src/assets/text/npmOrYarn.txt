@@ -1,0 +1,10 @@
+#查看npm包安装位置
+npm config get cache
+npm config get xxx
+
+#
+npm i xxx -g
+npm i xxx -dev -save
+
+#查看yarn包安装位置
+yarn global dir

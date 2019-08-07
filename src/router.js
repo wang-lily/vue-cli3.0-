@@ -1,10 +1,10 @@
 /*eslint-disable*/
-import Vue from 'vue'
-import Router from 'vue-router'
-import Home from '@/views/Home.vue'
-import {VM} from '@/main'
+import Vue from "vue";
+import Router from "vue-router";
+import Home from "@/views/Home.vue";
+import { VM } from "@/main";
 
-Vue.use(Router)
+Vue.use(Router);
 
 let router = new Router({
   mode: "history",
@@ -21,8 +21,21 @@ let router = new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ "@/views/About")
+    },
+    {
+      path: "/my-swiper",
+      name: "my-swiper",
       component: () =>
-        import(/* webpackChunkName: "about" */ "@/views/About.vue")
+        import(/* webpackChunkName: "my-swiper" */ "@/views/MySwiper")
+    },
+    {
+      path: "/carId",
+      name: "CarId",
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "carId" */ "@/views/CarId")
     },
     {
       path: "/center",
@@ -95,13 +108,13 @@ let router = new Router({
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth && !VM.$store.state.token) {
     // 判断该路由是否需要登录权限 当前的token是否存在
-    VM.$store.commit("changeRedirect",to.fullPath);
-      next({
-        path: "/login",
-        replace: true
-      });
+    VM.$store.commit("changeRedirect", to.fullPath);
+    next({
+      path: "/login",
+      replace: true
+    });
   } else {
     next();
   }
-})
-export {router}
+});
+export { router };

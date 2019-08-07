@@ -1,0 +1,4 @@
+mac跨域chrome命令行设置（关闭跨域安全限制）
+open -n /Applications/Google\ Chrome.app/ --args --disable-web-security  --user-data-dir=/Users/wanglimei/develop/chrome_debug 
+打开跨域安全限制
+open -n /Applications/Google\ Chrome.app/ --args --enable-web-security  --user-data-dir=/Users/wanglimei/develop/chrome_debug 
