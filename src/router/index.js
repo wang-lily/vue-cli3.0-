@@ -2,9 +2,19 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/views/Home'
+
 import VM from '@/main'
 
 Vue.use(Router)
+
+const routerList = [];
+function importAll(r){
+  r.keys().forEach(key=>{
+    routerList.push(r(key).default)
+  })
+}
+
+importAll(require.context('./',true,/\.routes\.js/));
 
 let router = new Router({
   mode: "history",
@@ -16,82 +26,15 @@ let router = new Router({
       component: Home
     },
     {
-      path: "/test",
-      name: "test",
-      component: () => import(/* webpackChunkName: "about" */ "@/views/Test")
+      // 会匹配所有路径
+      path: "*",
+      // component: NOtFundComponent
     },
-    {
-      path: "/about",
-      name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ "@/views/About")
-    },
-    {
-      path: "/carId",
-      name: "CarId",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "carId" */ "@/views/CarId")
-    },
-    {
-      path: "/my-swiper",
-      name: "my-swiper",
-      component: () =>
-        import(/* webpackChunkName: "my-swiper" */ "@/views/MySwiper")
-    },
-    // {
-    //   path: "/center",
-    //   component: Center,
-    //   children: [
-    //     {
-    //       path: "myAccount",
-    //       name: "MyAccount",
-    //       meta: {
-    //         requiresAuth: true
-    //       },
-    //       components: {
-    //         //定义路由视图，按需加载视图
-    //         // <router-view></router-view>
-    //         // <router-view name="myAccount"></router-view>
-    //         // <router-view name="mySetting"></router-view>
-    //         default: MyAccount,
-    //         myAccount: Yue,
-    //         mySetting: Jiaoyijilu
-    //       }
-    //     },
-    //     {
-    //       path: "myAccount-yue",
-    //       name: "MyAccount",
-    //       components: {
-    //         default: MyAccount,
-    //         myAccount: Yue
-    //       }
-    //     },
-    //     {
-    //       path: "myAccount-jiaoyijilu",
-    //       name: "MyAccount",
-    //       components: {
-    //         default: MyAccount,
-    //         mySetting: Jiaoyijilu
-    //       }
-    //     },
-    //     { path: "myOrder", name: "MyOrder", component: MyOrder },
-    //     { path: "myProject", name: "MyProject", component: MyProject },
-    //     { path: "mySetting", name: "MySetting", component: MySetting }
-    //   ]
-    // },
-    // {
-    //   // 会匹配所有路径
-    //   path: "*",
-    //   component: NOtFundComponent
-    // },
     {
       // 会匹配以 `/user-` 开头的任意路径
       path: "/user-*"
-    }
+    },
+    ...routerList
   ],
   //浏览器的滚动行为只能在history模式下使用
   scrollBehavior(to, from, savedPosition) {

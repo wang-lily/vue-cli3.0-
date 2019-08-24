@@ -7,9 +7,14 @@
       <router-link to="/test">Test</router-link> |
       <router-link to="/carId">CarId</router-link>
     </div>
-    <router-view>
-      <Loading />
-    </router-view>
+    <transition
+        name="custom-classes-transition"
+        mode="out-in"
+        enter-active-class="animated fadeInLeft"
+        leave-active-class="animated fadeOutLeft"
+      >
+      <router-view class="animated fadeInRight"/>
+    </transition>
   </div>
 </template>
 <script>

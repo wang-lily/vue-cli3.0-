@@ -1,14 +1,26 @@
 /*eslint-disable */
+// 预渲染插件
 // const PrerenderSPAPlugin = require('prerender-spa-plugin');
-
 // const Renderer = PrerenderSPAPlugin.PuppeteerRenderer;
-// const path = require('path');
+
+// 路径
+const path = require('path');
+// webpack打包工具
+const UglifyJsWebpackPlugin = require('uglifyjs-webpack-plugin');
+// 生产环境
+const isProduction = process.env.NODE_ENV === 'production';
+
+// 引入文件
+function resolve(dir){
+  return path.join(__dirname,dir);
+}
 
 module.exports = {
   /* 部署应用包的基本URL */
   /* baseUrl 从 Vue CLI 3.3 起已弃用 ，请使用publicPath */
   // 例如，如果你的应用被部署在 https://www.my-app.com/my-app/，则设置 publicPath 为 /my-app/。
-  publicPath: process.env.NODE_ENV === "production" ? "./" : "./",
+  // publicPath: process.env.NODE_ENV === "production" ? "./" : "./",
+  publicPath: './',
 
   /* 生产环境构建文件的目录 defalut: dist */
 
@@ -128,7 +140,7 @@ module.exports = {
 
     // 开启 CSS source maps?
 
-    sourceMap: true,
+    sourceMap: false,
 
     // css预设器配置项
 
@@ -151,8 +163,59 @@ module.exports = {
     modules: false
   },
 
+  // webpack配置
+  chainWebpack: config => {
+    // 配置别名
+    config.resolve.alias
+    .set('@',resolve('src'))
+    .set('@img',resolve('src/assets/imgs'))
+    .set('@scss',resolve('src/assets/scss'));
+    // 判断是否生产环境
+    if(isProduction){
+      // 删除预加载
+      config.plugins.delete('preload');
+      config.plugins.delete('refetch');
+      // 代码压缩
+      config.optimization.minimize(true);
+      // 分割成块
+      config.optimization.splitChunks({
+        chunks:'all'
+      })
+      // 注入cdn
+
+    }
+  },
+  configureWebpack: config => {
+    if(isProduction){
+      // 注入cdn
+      // 
+      config.plugins.push(
+        new UglifyJsWebpackPlugin({
+          uglifyOptions: {
+            // 删除
+            compress: {
+              drop_debugger: true,
+              drop_console:true
+            },
+            sourceMap:false,
+            // 多进程并行运行来提高构建速度
+            parallel: true
+          }
+        })
+      )
+    }else{
+      // 其他环境
+    }
+  },
+
+  // 生产环境是否生产sourceMap
+  productionSourceMap: false,
+  parallel:require('os').cpus().length > 1,
+
   // eslint-disable-next-line no-dupe-keys
   devServer: {
+    // 开启压缩
+    compress: false,
     port: 8080,
 
     host: "localhost",

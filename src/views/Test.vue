@@ -1,25 +1,23 @@
 <template>
   <div class="test">
-    <h1 class="animated fadeInLeft">Example</h1>
+    <h1 class="animated fadeInDown">Example</h1>
     <!-- <h1 class="animated infinite bounceIn delay-2s">Example</h1> -->
-    <div class="animated fadeInRight">
+    <!-- <div class="animated fadeInRight">
       <button class="animated infinite wobble my-smile" @click="show = !show">
         😀
       </button>
-    </div>
-    <div class="animated fadeInLeft">
+    </div> -->
+    <!-- <div class="animated fadeInLeft">
       <transition-group
         name="list-complete"
-        enter-active-class="animated fadeInDown"
-        leave-active-class="animated fadeInDown"
+        enter-active-class="animated rubberBand"
         tap="div"
       >
-        <!-- enter-active-class="animated rotateInDownLeft"
-        leave-active-class="animated rotateOutDownLeft" -->
-        <h1 v-show="show" v-for="item of testList" :key="item" class="list-complete-item">{{item}}</h1>
+        <h1 v-show="show" v-for="item of testList" :key="item" class="list-complete-item">
+          <el-button type="success" round plain>成功按钮</el-button>{{item}}</h1>
       </transition-group>
-    </div>
-    <div class="animated fadeInLeft">
+    </div> -->
+    <!-- <div class="animated fadeInLeft">
       <transition
         name="custom-classes-transition"
         enter-active-class="animated rotateInDownLeft"
@@ -27,8 +25,8 @@
       >
         <h1 v-show="show">unShow me!</h1>
       </transition>
-    </div>
-    <div class="animated fadeInLeft">
+    </div> -->
+    <!-- <div class="animated fadeInLeft">
       <transition
         name="custom-classes-transition"
         enter-active-class="animated rotateInDownLeft"
@@ -36,7 +34,7 @@
       >
         <h1 v-show="!show">Show me!</h1>
       </transition>
-    </div>
+    </div> -->
     <div class="animated fadeInRight">
       <el-button type="primary" plain @click="showDialog">按钮</el-button>
       <el-button type="success" round plain>成功按钮</el-button>
@@ -163,8 +161,8 @@ export default {
         return;
       }
       this.testNum++
-      this.testList.splice(0,0,this.testNum);
-    },1000)
+      this.testList.unshift(this.testNum);
+    },5000)
   },
   methods: {
     //异步回调解决方案
@@ -247,10 +245,11 @@ flex-start-center()
 .list-complete-enter{
 
 }
+
 .list-complete-enter, .list-complete-leave-to
 /* .list-complete-leave-active for below version 2.1.8 */ {
   opacity: 0;
-  // transform: translateY(30px);
+  // transform: translateX(30px);
 }
 .list-complete-leave-active {
   position: absolute;
